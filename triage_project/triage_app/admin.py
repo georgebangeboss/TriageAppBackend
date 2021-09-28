@@ -35,11 +35,11 @@ admin.site.register(Vital, VitalAdmin)
 
 
 class VisitFormAdmin(admin.ModelAdmin):
-    list_display = ('id', 'patient_fk', 'do_drugs',
+    list_display = ('id', 'patient_fk', 'on_diet',
                     'health_status', 'comments',)
     list_filter = ()
     fieldsets = (
-        (None, {'fields': ('patient_fk', 'do_drugs',
+        (None, {'fields': ('patient_fk', 'on_diet',
          'health_status', 'comments',), }),
     )
 

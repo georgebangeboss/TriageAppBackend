@@ -18,10 +18,6 @@ class PatientViewSet(viewsets.ModelViewSet):
 
 
 class VitalSerializer(serializers.ModelSerializer):
-    patient_fk = serializers.SlugRelatedField(
-        queryset=Patient.objects.all(),
-        slug_field='first_name'
-    )
 
     class Meta:
         model = Vital
@@ -35,15 +31,11 @@ class VitalViewSet(viewsets.ModelViewSet):
 
 
 class VisitFormSerializer(serializers.ModelSerializer):
-    patient_fk = serializers.SlugRelatedField(
-        queryset=Patient.objects.all(),
-        slug_field='first_name'
-    )
 
     class Meta:
         model = VisitForm
         fields = ('id', 'patient_fk',
-                  'health_status', 'do_drugs', 'comments',)
+                  'health_status', 'on_diet', 'comments',)
 
 
 class VisitFormViewSet(viewsets.ModelViewSet):

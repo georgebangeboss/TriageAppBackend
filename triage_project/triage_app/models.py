@@ -3,7 +3,7 @@ from django.db import models
 GENDER = (
     ('M', "MALE"),
     ('F', "FEMALE"),
-    ('N', "PREFER NOT TO SAY"),
+    ('N', "NO_SAY"),
 )
 
 HEALTH = (
@@ -11,7 +11,7 @@ HEALTH = (
     ('B', "BAD"),
 )
 
-DRUGS = (
+DIET_HISTORY = (
     ('Y', "YES"),
     ('N', "NO"),
 )
@@ -50,8 +50,8 @@ class VisitForm(models.Model):
 
     health_status = models.CharField(
         max_length=1, choices=HEALTH,)
-    do_drugs = models.CharField(
-        max_length=1, choices=DRUGS,)
+    on_diet = models.CharField(
+        max_length=1, choices=DIET_HISTORY,)
     patient_fk = models.ForeignKey(
         Patient, models.CASCADE, related_name='visit_forms')
     comments = models.CharField(max_length=1000)
