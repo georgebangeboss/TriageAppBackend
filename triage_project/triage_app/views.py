@@ -1,7 +1,35 @@
-from rest_framework import serializers, viewsets
+from rest_framework import serializers, viewsets, permissions
 from rest_framework.decorators import action
 from rest_framework.response import Response as APIResponse
+from django.utils.timezone import now
 from .models import (Patient, Vital, VisitForm)
+
+
+class PatientSerializer2(serializers.ModelSerializer):
+    vitals = serializers.SlugRelatedField(
+        queryset=Vital.objects.all().reverse(),
+        many=True,
+        slug_field='bmi')
+
+    age = serializers.SerializerMethodField(method_name='get_age')
+
+    def get_age(self, obj):
+        days = (now().date() - obj.dob).days
+        years = days//365
+        months = (days % 365)//30
+        age = str(years)+' years '+str(months)+' months'
+        return age
+
+    class Meta:
+        model = Patient
+        fields = ('first_name', 'last_name',
+                  'dob', 'vitals', 'age')
+
+
+class PatientViewSet2(viewsets.ModelViewSet):
+    queryset = Patient.objects.all()
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    serializer_class = PatientSerializer2
 
 
 class PatientSerializer(serializers.ModelSerializer):
@@ -15,6 +43,7 @@ class PatientSerializer(serializers.ModelSerializer):
 class PatientViewSet(viewsets.ModelViewSet):
     queryset = Patient.objects.all()
     serializer_class = PatientSerializer
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
 
 class VitalSerializer(serializers.ModelSerializer):
@@ -28,6 +57,7 @@ class VitalSerializer(serializers.ModelSerializer):
 class VitalViewSet(viewsets.ModelViewSet):
     queryset = Vital.objects.all()
     serializer_class = VitalSerializer
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
 
 class VisitFormSerializer(serializers.ModelSerializer):
@@ -41,3 +71,4 @@ class VisitFormSerializer(serializers.ModelSerializer):
 class VisitFormViewSet(viewsets.ModelViewSet):
     queryset = VisitForm.objects.all()
     serializer_class = VisitFormSerializer
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
