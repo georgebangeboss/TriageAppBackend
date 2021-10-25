@@ -5,7 +5,7 @@ from django.utils.timezone import now
 from .models import (Patient, Vital, VisitForm)
 
 
-class PatientSerializer2(serializers.ModelSerializer):
+class PatientSerializerBrief(serializers.ModelSerializer):
     vitals = serializers.SlugRelatedField(
         queryset=Vital.objects.all().reverse(),
         many=True,
@@ -16,8 +16,10 @@ class PatientSerializer2(serializers.ModelSerializer):
     def get_age(self, obj):
         days = (now().date() - obj.dob).days
         years = days//365
+        age = str(years)+'y '
         months = (days % 365)//30
-        age = str(years)+' years '+str(months)+' months'
+        if months != 0:
+            age += str(months)+'m'
         return age
 
     class Meta:
@@ -26,10 +28,10 @@ class PatientSerializer2(serializers.ModelSerializer):
                   'dob', 'vitals', 'age')
 
 
-class PatientViewSet2(viewsets.ModelViewSet):
+class PatientViewSetBrief(viewsets.ModelViewSet):
     queryset = Patient.objects.all()
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
-    serializer_class = PatientSerializer2
+    serializer_class = PatientSerializerBrief
 
 
 class PatientSerializer(serializers.ModelSerializer):

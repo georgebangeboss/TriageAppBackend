@@ -36,6 +36,7 @@ class Vital(models.Model):
     height = models.DecimalField(max_digits=10, decimal_places=5)
     weight = models.DecimalField(max_digits=10, decimal_places=5)
     bmi = models.DecimalField(max_digits=10, decimal_places=5)
+    created_at = models.DateTimeField(auto_now_add=True)
     patient_fk = models.ForeignKey(
         Patient, models.CASCADE, related_name='vitals')
 
@@ -52,6 +53,7 @@ class VisitForm(models.Model):
         max_length=1, choices=HEALTH,)
     on_diet = models.CharField(
         max_length=1, choices=DIET_HISTORY,)
+    created_at = models.DateTimeField(auto_now_add=True)
     patient_fk = models.ForeignKey(
         Patient, models.CASCADE, related_name='visit_forms')
     comments = models.CharField(max_length=1000)
