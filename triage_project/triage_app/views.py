@@ -15,7 +15,7 @@ class PatientSerializerBrief(serializers.ModelSerializer):
 
     def get_age(self, obj):
         days = (now().date() - obj.dob).days
-        years = days//365
+        years = days//365 
         age = str(years)+'y '
         months = (days % 365)//30
         if months != 0:
