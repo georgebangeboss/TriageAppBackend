@@ -1,1 +1,1 @@
-web: gunicorn triage_project.config.wsgi --log-file -
+web: gunicorn --pythonpath triage_project config.wsgi --log-file -
