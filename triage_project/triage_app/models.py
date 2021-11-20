@@ -18,6 +18,7 @@ DIET_HISTORY = (
 
 
 class Patient(models.Model):
+    phone_number =models.CharField(max_length=255)
     first_name = models.CharField(max_length=255)
     last_name = models.CharField(max_length=255)
     dob = models.DateField()

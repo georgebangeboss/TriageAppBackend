@@ -25,7 +25,7 @@ class PatientSerializerBrief(serializers.ModelSerializer):
     class Meta:
         model = Patient
         fields = ('first_name', 'last_name',
-                  'dob', 'vitals', 'age')
+                  'dob', 'vitals', 'age','phone_number')
 
 
 class PatientViewSetBrief(viewsets.ModelViewSet):
